@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="generator" content="Fise"/>
+  <title>Fise</title>
+  <script type="text/javascript">var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-53539506-1"]);_gaq.push(["_trackPageview"]);(function(){var ga=document.createElement("script");ga.type="text/javascript";ga.async=true;ga.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga,s)})();</script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body dir="ltr">
+  <div class="container">
+    <ol class="breadcrumb" dir="ltr">
+      <li><a href="{{ url_for('main') }}"><i class="fa fa-home fa-lg fa-fw"></i>Home</a></li>
+    </ol>
+    <div class="row">
+      <div class="col-xs-6 col-sm-4 col-md-3 col-xs-offset-6 col-sm-offset-8 col-md-offset-9">
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table id="bs-table" class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-right" data-sort="int">#</th>
+            <th class="col-sm-8 text-left" data-sort="string">Name</th>
+            <th class="col-sm-2 text-right" data-sort="int">Size</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <small class="pull-left text-muted" dir="ltr">0 folders and {{ files|count }} files, {{ (totalfilesize|humanize('naturalsize')) }} in total</small>
+            </td>
+          </tr>
+        </tfoot>
+        <tbody>
+        {% for file, size in onlyfiles %}
+            <tr>
+              <td class="text-muted text-right" data-sort-value="{{ loop.index }}">{{ loop.index }}</td>
+                <td class="text-left" data-sort-value={{ file }}><i class="fa fa-picture-o "></i> <a href="/static/files/{{query}}/{{ file }}" target="blank" class="image-modal"  data-modified="50.74 KB">{{ file }}</a></td>
+              <td class="text-right" data-sort-value="{{size}}" title="{{size}}">{{size|humanize('naturalsize')}}</td>
+              <td class="text-right" data-sort-value="1460763842" title="2016-04-15 23:44:02"></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="https://idleberg.com/demo/Bootstrap-Listr-2/assets/css/listr.pack.css" />
+<link rel="stylesheet" href="{{url_for('static', filename='css/signin.css')}}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+            {% if errors %}
+
+                <ul>
+                    <div class="row">
+                        <div class="col-xs-9 col-xs-offset-1">
+                    <div class="alert alert-danger" align="center" role="alert">
+
+                            {%- for msg in errors %}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>{{ msg }}</strong>
+                            {% endfor -%}
+                </ul>
+                        </div>
+                        </div>
+                    </div>
+{% endif %}
+{% endwith %}
+      <form class="form-signin" method="POST" action="/login">
+        <h2 class="form-signin-heading" align="center">Please sign in</h2>
+          <br>
+        {{ form.hidden_tag() }}
+        {{ wtf.form_field(form.username) }}
+        {{ wtf.form_field(form.password) }}
+          {{ form.recaptcha }}
+        {{ wtf.form_field(form.remember) }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+{% endblock %}

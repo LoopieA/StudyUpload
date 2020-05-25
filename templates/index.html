@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Loopie">
+    <link rel="shortcut icon" type="image/ico" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <title>StudyUpload</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+  </head>
+  <body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="">StudyUpload</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#classes">Fise</a>
+            </li>
+            <li class="nav-item">
+              {% if current_user.is_authenticated %}
+                  <a class="nav-link js-scroll-trigger" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                  <a class="nav-link js-scroll-trigger" href="{{ url_for('login') }}">Login</a>
+                  <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="{{ url_for('register') }}">Register</a>
+          </li>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    {% if current_user.username == "test" %}
+    <header class="masthead">
+      <div class="container">
+        <div class="intro-text">
+          <h1>Incărcați un fișier</h1>
+          <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" data-toggle="modal" data-target="#exampleModal">Upload</a>
+        </div>
+      </div>
+    </header>
+    {% else %}
+    <header class="masthead">
+      <div class="container">
+        <div class="intro-text">
+          <h1>Select your class</h1>
+        </div>
+      </div>
+    </header>
+    {% endif %}
+    <!-- Classes -->
+    <section id="classes">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading text-uppercase">Classes</h2>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-3">
+            <span class="fa-stack fa-3x">
+            <strong class="fa-stack-1x text"><a href={{ url_for('fise') }}?class=ix style="text-decoration:none; font-size: 60px;">IX</a></strong>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <span class="fa-stack fa-3x">
+            <strong class="fa-stack-1x text"><a href={{ url_for('fise') }}?class=x style="text-decoration:none; font-size: 60px;">X</a></strong>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <span class="fa-stack fa-3x">
+              <strong class="fa-stack-1x text"><a href={{ url_for('fise') }}?class=xi style="text-decoration:none; font-size: 60px;">XI</a></strong>
+            </span>
+          </div>
+          <div class="col-md-3">
+            <span class="fa-stack fa-3x">
+            <strong class="fa-stack-1x text"><a href={{ url_for('fise') }}?class=xii style="text-decoration:none;font-size: 60px;">XII</a></strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="file-name" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title text-left" id="file-name">&nbsp;</h4>
+            <small class="text-muted" id="file-meta"></small>
+          </div>
+          <div class="modal-body">
+            <form id='upload-form' method="POST" action="{{ url_for('upload_file') }}" enctype=multipart/form-data>
+              <div class="form-group">
+                  <input type="file" name="file" multiple>
+              </div>
+                <select name="class_select" class="form-control">
+                  <option>IX</option>
+                  <option>X</option>
+                  <option>Xi</option>
+                  <option>XII</option>
+                </select>
+              </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Upload</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+          </form>
+          {% with messages = get_flashed_messages('success') %}
+            {% if messages %}
+                <script>
+                    var messages = {{ messages | safe }};
+                    for (var i=0; i<messages.length; i++) {
+                        alert(messages[i]);
+                    }
+                </script>
+            {% endif %}
+            {% endwith %}
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{{ url_for('static', filename='js/agency.min.js') }}"></script>
+
+  </body>
+
+</html>
